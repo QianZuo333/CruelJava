@@ -1,0 +1,10 @@
+2.4 JVM的call_stub就是一个函数指针。CallStub() 参数：link 连接器，result_val_address 函数返回值地址，result_type 函数返回类型，method() 当前java方法在JVM内部的表示对象，entry_point Java方法例程入口，parameters 入参集合，size_of_parameters 入参数量，CHECK 当前线程对象。 
+2.5 JVM为了能够调用Java函数，需要在运行期知道一个Java函数的入参大小，然后动态计算出所需要的堆栈空间。CallStub()是JVM内部C/C++程序与Java程序之间的分水岭和桥梁，能够将Java程序被调用的函数的入参分配到堆栈中，在Java函数中才能对Java类型的入参进行寻址。JVM在传递Java函数参数时，传递的是Java入参对象实例的指针，在物理机器层面，指针宽度都是相同的。为了加速内存寻址和回收，物理机器在分配堆栈空间时都会进行内存对齐。CallStub函数指针为即将调用的函数分配的堆栈空间大小为： Java函数入参数量 x 4 + 4 x 4， 4 x 4 就是最后rdi, rsi, rbx, mxcsr 这4个寄存器所占用的堆栈空间大小。
+寄存器名 指向
+edx     | parameters 首地址
+ecx     | Java函数入参数量
+ebx     | 指向Java函数
+esi     | CallStub栈顶
+eax     | entry_point例程入口
+entry_point不关心其他数据，所以仍在堆栈中 8(%ebp), 12(%ebp)等。
+2.6 Java语言本身的设计宗旨决定了JVM内部必须由C/C++程序直接执行本地机器指令，而这种技术实现决定了call_stub内部必须这么实现
