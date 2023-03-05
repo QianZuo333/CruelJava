@@ -1,0 +1,22 @@
+3. Java数据结构于面向对象
+3.1 数据结构脱离底层机器约束
+3.2 Java编译器虽然编译时也能准确分析类型信息，但是编译后的Java字节码却不能直接由物理机器执行，因此Java语言的类型信息并不完全在编译期维护，而是推迟到了运行期。
+3.3 Java为什么可以做到在运行期动态反射到类型的成员变量及方法？在JVM加载类的时候，就将Java类的类元信息保存到内存中，这样在运行期直接读取目标内存中的数据便能获得相应信息。Java的面向对象和自动内存管理的特性实现，因为要实现运行时类型识别的目标，因此在偶然中带有必然性。
+3.4 每一个Java类被编译后会生成一个.class字节码文件，主要两类数据：无符号数和表。无符号数表示数字，索引，及字符串等。表是由多个无符号数和其他的表组成的复合结构。一个class字节码保护10个部分：
+- MagicNumber, 标志class文件，每个Java class文件最起码4个字节固定为0xCAFEBABE，一共32位共4个字节防止加载非class文件造成虚拟机崩溃
+- Version，2个长度都为2字节的字段组成，分别是Major Version和Minor Version，代表class的主版本和此版本号。高版本JVM可以加载低版本的class，反之不行
+- Constant_pool， 常量池，class文件第9字节开始。首先是2字节constant_pool_count,常量池包含的常量。接下来的二进制信息描述[constant_pool_count - 1]个常量，是字面常量和符号引用。字面常量包含文本串以及被声明final的常量。符号引用包含类和接口的全局限定名，字段名称和描述符，方法名称和描述符。所有的引用都是运行时动态加载的，所以需要把这些引用信息保存在class文件里。字面常量根据类型分为字符串，整型，长整型，浮点型，双精度浮点型。
+- Access_flag，当前类的访问权限
+- This_class，全局限定名在常量池里的索引
+- Super_class，父类的全局限定名在常量池里的索引
+- Interfaces，当前类实现的接口列表，包含interfaces_count 当前实现的接口数目和interfaces[interfaces_count]，接口的全局限定名的索引的数组。
+- Fields，当前类的成员列表，包含fields_count， 类变量和实例变量的字段的数量总和，和fields[fields_count] 包含字段详细信息的列表
+- Methods， 当前类的方法列表，methods_count 类活接口显式定义的方法和数量，和methods[methods_count]包含方法信息的详细列表
+- Attriutes，当前类attributes_count， 和attributes[attributes_count]
+
+魔数在字节码文件中占4字节，并且固定不变，因此JVM使用u自定义类型存放。
+常量池是字节码文件中重要的概念，是整个类的核心，含有所有成员变量，成员方法，静态方法，构造函数等信息。
+oop-klass模型，hotspot虚拟机在内部的使用oop和klass表示Java的类和对象。 
+- oop 描述对象实例信息
+- klass 描述Java类，虚拟机内部Java类型结构的对等体
+在JVM中，Java方法也是对象，字节码常量池也是对象。oop-klass模型来表示不同的对象。
