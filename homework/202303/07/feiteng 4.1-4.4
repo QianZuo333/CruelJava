@@ -1,0 +1,42 @@
+4. Java字节码实战
+4.1 分析样例 Test.class
+
+public class Test {
+    public int a = 3;
+    static Integer si = 6;
+    String s = "Hello World!";
+
+    public static void main(String[] args) {
+        Test test = new Test();
+        test.a = 8;
+        si = 9;
+    }
+
+    private void test() {
+        this.a = a;
+    }
+}
+
+4.2 
+所有.class字节码开始4个字节都是魔数, 且一定是0xCAFEBABE. 版本号, 前2个字节表示major version, 后2个字节表示minor version
+4.3 常量池
+常量池由常量池数量和常量池数组两部分组成. 常量池数组不同元素类型, 结构都是不同的, 但是每种元素的第一个数据都是u1类型. [常量池元素] = [tag标识, 元素内容], JVM中只能定义有限的元素类型, 共11种. 第9个字节和第10个字节描述常量池元素的总数. 第11个字节开始就是常量池数组, 每个常量池元素都以tag为标志开始, tag位标只占1字节长度. 
+第一个常量池元素, CONSTANT_Class_info. 结构是 
+- tag 位标 占1个字节
+- index 占2字节长度
+第二个常量池元素, UTF8编码字符串. 结构是 
+- tag 占1个字节
+- length 占2个字节
+- bytes 占 length字节
+第3, 4两个常量用于描述父类信息. 
+4.4 
+access_flag 访问标志位, 用于标注类或接口层次的访问信息. 结构类型u2, 2个字节h
+this_class 紧跟access_flag之后, u2, 2个字节
+super_class 记录当前父类全限定名, 指向常量池中对应的索引值. u2
+interfaces_count 记录当前实现接口数量, u2
+interfaces[interfaces_count]  interfaces 接口索引集合
+fields_count 当前类所定义的变量总数量
+fields[fields_count] 各个变量的详细信息. fields结构组成:
+- access_flag 标识变量的访问标识
+- name_index 表示变量的简单名称引用
+- desciprtor_index 表示变量的类型信息引用
