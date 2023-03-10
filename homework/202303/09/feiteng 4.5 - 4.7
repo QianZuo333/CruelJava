@@ -1,0 +1,17 @@
+4.5 字段信息
+fields_count 记录当前类中定义的变量总数量, 包括成员变量和类变量, u2
+field_info 长度不确定, 不同变量类型所占长度不同. 记录类中变量的详细信息. 实体上是一个数组. 
+methods_count 类中包含多少个方法, u2. 编译期间编译器会自动为一个类增加void <clinit>()的方法, 执行类的初始化. 同时添加一个默认的构造函数. 
+methods 方法的全部细节
+
+9大属性
+- Code
+- ConstantValue 
+- Exceptions
+- InnerClasses
+- LineNumberTale
+- LocalVariableTable
+- SourceFile
+- Deprecated属性和Synthetic属性
+
+4.7 Javab编译器在生成Java class字节码文件时， 是按套路出牌的.
