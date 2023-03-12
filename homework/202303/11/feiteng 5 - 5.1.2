@@ -1,0 +1,18 @@
+5 常量池解析
+5.1 常量池内存分配 
+
+内存分配考虑两点: 1. 多大的内存; 2. 分配在哪里. JVM使用一个专门的C++类constantPoolOop来保存常量池信息, 该类里面实际保存数据的是属于typeArrayOop类型的_tags实例对象. typeArrayOop究竟如何对复杂的常量池信息进行描述呢? 常量池类似于数组, 不同的Java类所生产的常量池信息是不同的, 因此无法使用一种预先定义好的数据去描述. 
+5.1.1 oopFactory::new_constantPool(length, oopDesc::IsSafeConc, CHECK_(nullHandle)); 实现常量池分配. length代表常量池元素个数. 
+- oopFactory oop工厂类, 生产专门的对象
+- constantPoolKlass 常量池类型对象, klass用于描述JVM内部的一个具体对象的结构信息.
+- collectedHeap JVM内部的堆内存区, 可被垃圾收集器回收并反复利用, 代表JVM广义的对内存区域. 
+- psPermGen perm区内存, JDK8时代 perm区的概念被metaSpace概念取代, 本地内存区域. perm指内存的永久保存区, class加载时放入permGen space区域. 所谓本地, 是JVM直接向操作系统申请的内存. 好处是JVM不会由于为permGen space指定的内存太小而导致类加载太多造成perm去内存耗尽
+
+宏观层面上, 常量池内存分配分为:
+1) 在堆区分配内存空间, 在psOldGen.hpp中通过object_space()->allocate(word_size)实现
+2) 初始化对象, 在collectedHeap.inline.hpp中调用init_obj()进行初始化
+3) 初始化oop, 在collectedHeap.inline.hpp中调用post_allocation_install_obj_klass()完成oop初始化并赋值. 
+
+5.1.2 内存分配
+常量池中有多少个常量池元素, 便会分配多大内存. constantPoolKlass::allocate()从JVM中申请的内存大小包含: constantPoolOopDesc大小, Java常量池元素数量.
+JVM为constantPoolOop实例对象分配内存大小是(headSize + length)个指针宽度, JVM为常量池对象申请的内存位于perm区, 因此每一个constantPoolOop对象实例在perm区都是连续分布的. 
