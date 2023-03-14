@@ -1,0 +1,18 @@
+5.1.3 初始化内存
+初始化就是清零操作. 
+
+5.2 oop-klass模型
+JVM为constantPoolOop申请内存, 随后会解析Java字节码中的常量池信息, 并将解析的中间结果存到申请的内存中区. oop-klass是一种一分为二的内存模型. 
+5.2.1 两模型三维度
+一个Java类拆分为oop模型和klass模型. oop是ordinary object pointer, 表示对象的实例信息, 看起来像个指针. klass则包含元数据和方法信息, 用来描述Java类或JMVM内部自带的C++类型信息. 3个不同的维度对一个类进行描述: 1) oop 实例数据视图 2) klass Java类的元信息视图, 和 3) 虚函数列表, 或者方法分发规则. Java类所有函数都是virtual的, 不需要关键字修饰符, 但是最终在JVM内部维护一套函数分发表. 
+5.2.2 
+Java内部定义了3中结构区描述一种类型: oop, klass, 和 handle类. handle是对oop的行为的封装, 在访问Java类时一定是通过handle内部指针得到oop实例的, 再通过oop拿到klass. 
+5.2.3 oop体系
+1) HotSpot里oop指啥? 
+- GC所托管的指针, 每一个oop都是一种xxxOopDesc*类型的指针. 所有oopDesc及其子类, 除了markOopDesc外, 实例都由GC管理. 
+2) 对象指针前为什么需要"普通"二字?
+- 对象指针本质上是一个指针, 指向xxxOopDesc的指针. markOop则是一个看起来像指针但实际上藏在指针里的对象. 这也是markOop不受GC托管的原因. 
+5.2.4 klass体系
+- klass提供一个与Java类对等的C++类型描述
+- klass提供虚拟机内部的函数分发机制
+除了constantPoolKlass之外, 最重要的就是instanceKlass和klassKlass了. 
