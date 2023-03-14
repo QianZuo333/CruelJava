@@ -24,6 +24,11 @@ public class Cube extends Shape
 - Triangle是抽象类；AreaCalculator是具体实现类
 
 ```
+public class Triangle extends Shape
+{
+  // Do something
+}
+
 public class AreaCalculator
 {
     private float result;
