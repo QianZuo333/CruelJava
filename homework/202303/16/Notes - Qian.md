@@ -17,6 +17,7 @@
             String setterName = "set" + personClassDeclaredMethods[i].getName().substring(3);
             Object getterValue = personClassDeclaredMethods[i].invoke(person);
             for (int j = 0; j < studentDeclaredMethods[j].length; j++){
+            // 当student的方法是set的时候，而且恰好是设置同一个variable的setter，把这个时候的person的value赋值给student
               if(studentClassDeclaredMethods[j].getName().equals(setterName)){
                 studentClassDeclaredMethods[j].invoke(student.getterValue);
               }
