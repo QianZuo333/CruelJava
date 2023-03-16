@@ -14,7 +14,13 @@
         if(personClassDeclaredMethods[i].getName().contains("get")){
             String setterName = "set" + personClassDeclaredMethods[i].getName().substring(3);
             Object getterValue = personClassDeclaredMethods[i].invoke(person);
+            for (int j = 0; j < studentDeclaredMethods[j].length; j++){
+              if(studentClassDeclaredMethods[j].getName().equals(setterName)){
+                studentClassDeclaredMethods[j].invoke(student.getterValue);
+              }
+            }
         }
     }
+    System.out.println(student.getName() + " - " + student.getAge());
  }
  ```
