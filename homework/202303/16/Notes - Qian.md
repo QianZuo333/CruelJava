@@ -10,8 +10,10 @@
     
     Method[] personClassDeclaredMethods = personClass.getDeclaredMethods();
     Method[] studentClassDeclaredMethods = studentClass.getDeclaredMethods();
+    // 把person里面的数据给对应的student
     for (int i = 0; i < personClassDeclaredMethods.lenght; i++) {
         if(personClassDeclaredMethods[i].getName().contains("get")){
+            // getName getAge -> setName setAge
             String setterName = "set" + personClassDeclaredMethods[i].getName().substring(3);
             Object getterValue = personClassDeclaredMethods[i].invoke(person);
             for (int j = 0; j < studentDeclaredMethods[j].length; j++){
