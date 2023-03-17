@@ -1,0 +1,14 @@
+5.2.5 handle体系
+handle封装了oop， oop可以拿到klass， klass是Java类数据结构的方法和描述. handle是对普通对象的间接引用, 中间隔了一层, 为了GC考虑
+- 通过handle, 让GC知道内部代码由哪些地方持有GC所管理的对象的引用, 秩序扫描handle所对应的table, 这样JVM无需关注其内部
+- 在GC过程中, 如果对象移动, 那么JVM内部引用无须改动, JVM只需要更改handle table对应指针
+
+在C++领域, 类的继承和多态性通过vptr(虚函数) 来实现. 在klass内部, 记录了每一个类的vptr信息, 分为两个部分
+1. vtable虚函数表, 存放Java类中非静态和非private的方法入口
+2. itable接口函数表, 存放Java类所实现的接口类方法. 
+vtable和itable存放的并不是Java类方法和接口方法的直接入口, 而是指向了Method对象入口. 
+5.2.6 oop, klass, handle的相互转换
+1. 从oop和klass到handle
+handle主要封装oop和klass, 因此在声明handle类实例时, 直接将oop或者klass传进去, 就完成了封装. 
+2. klass和oop相互转换
+每一种klass实例最终都要被封装为oop, 具体操作时, 先分配对应的oop实例, 接着将klass实例分配到oop对象头的后面. 
