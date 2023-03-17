@@ -1,0 +1,62 @@
+package study;
+
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * @author luhua8
+ */
+public class HashMapTest {
+
+//    static class Node<K,V> implements Map.Entry<K,V> {
+//        final int hash;    //用来定位数组索引位置
+//        final K key;
+//        V value;
+//        Node<K,V> next;   //链表的下一个node
+//
+//        Node(int hash, K key, V value, Node<K,V> next) { ... }
+//        public final K getKey(){ ... }
+//        public final V getValue() { ... }
+//        public final String toString() { ... }
+//        public final int hashCode() { ... }
+//        public final V setValue(V newValue) { ... }
+//        public final boolean equals(Object o) { ... }
+//    }
+
+    static ConcurrentHashMap<Integer, Long> chm = new ConcurrentHashMap<>(12);
+
+    public static void main(String[] args) {
+        int expectedSize = 5;
+        // HashMap的initialCapacity的初始值为16， 负载因子为 0.75
+        // rehash过程比较耗时，初始化容量要设置成expectedSize/0.75 + 1 的话，可以有效地减少冲突
+        HashMap<Integer, String> a = new HashMap<>(expectedSize * 4 / 3 + 1);
+        a.put(1, "a");
+
+        a.forEach((k, v) -> {
+            System.out.println(k);
+            System.out.println(v);
+            System.out.println("\n");
+        });
+
+        // 线程安全
+        long t = System.currentTimeMillis();
+        chm.put(1, t);
+
+        new TThread().run();
+        new TThread().run();
+        new TThread().run();
+    }
+
+    public static class TThread extends Thread {
+
+        @Override
+        public void run() {
+            long t = System.currentTimeMillis();
+            chm.put(1, t);
+            for (int i = 0; i < 100000; i++) {
+
+            }
+            System.out.println(t + " | " + chm.get(1));
+        }
+    }
+}
