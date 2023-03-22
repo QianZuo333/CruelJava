@@ -1,0 +1,8 @@
+5.3.6 初始化klass. 经过前面的步骤, klassOop对象实例已经成功完成oop对象头的初始化. 
+5.3.7 自指. klassOop的_metadata成员变量被设置为指向其自身. 
+5.4 常量池klass模型2
+5.4.1 constantpPoolKlass模型构建. JVM在构建constantPoolKlass时, 所分配的内存大小为oopDesc的大小于constantPoolKlass的大小之和, 即JVM将封装constantPoolKlass的oop的大小已经计算进去了.
+5.4.2 constantPoolOop于klass. 
+constantPoolOop    constantPoolKlass           oop对象头
+_mark           -> _mark        _metadata -> _mark     _metadata -> _mark
+5.4.3 klassKlass终结符 让klassKlass指向自己, 终结引用
