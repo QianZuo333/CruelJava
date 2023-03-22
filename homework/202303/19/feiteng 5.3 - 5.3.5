@@ -1,0 +1,13 @@
+5.3 常量池klass模型
+5.3.1 klassKlass是理解JVM内存模型关键。 代码大约是6步
+- 为klassOop申请内存
+- klassOop内存清零
+- 初始化klassOop._mark标识
+- 初始化klassOop._metadata
+- 初始化klass
+- 自指
+5.3.2 为klassOop申请内存
+create_klass() 内先做两件事: 内存申请和标识初始化. 
+5.3.3 klassOop内存清零
+5.3.4 初始化mark
+5.3.5 初始化klassOop._metadata
