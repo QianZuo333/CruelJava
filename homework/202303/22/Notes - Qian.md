@@ -1,6 +1,8 @@
 # Thread-safe data structures in Java
 Example: ConcurrentHashMap, CopyOnWriteArrayList, ConcurrentLinkedQueue, BlockingQueue, Atomic variables
 
+
+An example using ConcurrentHashMap
 ```
 import java.util.concurrent.ConcurrentHashMap;
 
