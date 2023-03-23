@@ -1,0 +1,7 @@
+Optimistic locking and pessimistic locking are two concurrency control mechanisms used in databases and software systems to prevent multiple users from accessing and modifying the same data simultaneously.
+
+Optimistic locking assumes that conflicts between transactions are unlikely to occur, and allows multiple users to read and write the same data simultaneously. However, before committing changes, the system checks to ensure that no other user has modified the data in the meantime. If a conflict is detected, the system rolls back the transaction and notifies the user to try again. Optimistic locking is often used in systems with a low level of contention, where conflicts are rare.
+
+Pessimistic locking, on the other hand, assumes that conflicts between transactions are likely to occur, and therefore locks the data being accessed by one user to prevent others from accessing it at the same time. This approach ensures that conflicts are avoided, but can also result in reduced concurrency and longer wait times for users. Pessimistic locking is often used in systems with a high level of contention, where conflicts are common.
+
+In summary, optimistic locking is used when conflicts are rare, and allows multiple users to access and modify the same data simultaneously, while pessimistic locking is used when conflicts are likely to occur, and locks the data to prevent concurrent access.
