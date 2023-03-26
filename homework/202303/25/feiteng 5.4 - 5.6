@@ -1,0 +1,13 @@
+5.4 常量池klass模型2
+5.4.1 constantpPoolKlass模型构建. JVM在构建constantPoolKlass时, 所分配的内存大小为oopDesc的大小于constantPoolKlass的大小之和, 即JVM将封装constantPoolKlass的oop的大小已经计算进去了.
+5.4.2 constantPoolOop于klass. 
+constantPoolOop    constantPoolKlass           oop对象头
+_mark           -> _mark        _metadata -> _mark     _metadata -> _mark
+5.4.3 klassKlass终结符 让klassKlass指向自己, 终结引用
+
+5.5 常量池解析
+JVM需要先构建出constantPoolOop实例，并分配足够的内存空间来保存字节码文件中的常量池信息
+5.5.1 constantPoolOop域初始化 allocate
+5.5.2 初始化tag 为_tags 申请内存空间
+5.5.3 解析常量池元素 parse_constant_pool_entries(). 字节码文件中的字符串常量池元素最终都会被保存到符号表中. 
+5.6  klass保存一个类型的元信息, JVM内部对数据结构的实现. oop是数据结构的实例表示方式.
