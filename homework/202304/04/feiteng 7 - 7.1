@@ -1,0 +1,4 @@
+7 栈帧
+7.1 entry_point例程生成
+当JVM调用Java函数时， 最终会从不同的入口进去，在callstub历程中进入不同的函数入口. 正常的Java方法调用,其所对应的entry_point一般都是zerolocals或者zerolocals_synchronized, 除非加了关键字synchronized. 
+CallStub例程所进入的entry_point例程其实是方法入口, 且并不是只有一个. 在一个Java类被JVM加载的过程中, 会对每个Java方法进行签名信息分析, 并最终确定一个Java方法的entry_point类型. 
