@@ -1,0 +1,7 @@
+
+7.2 局部变量表创建
+7.2.1 constMethod 内存分布
+- method对象的constMethod指针紧跟在methodOop对象头后面, 也即constMethod的偏移量是固定的
+- constMethod内部存储Java函数所对应的字节码指令的位置相当于constMethod起始位的偏移量是固定的
+- method对象内部存储Java函数的参数数量, 局部变量数量的参数的偏移量是固定的
+JDK8 中max_locals和size_of_parameters两个参数被从methodOopDesc移到了constMethod中, 因为不会在运行过程中被修改
